@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using CryptoPriceFetcherConsoleApp.Models;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
@@ -29,7 +30,7 @@ if (!response.IsSuccessStatusCode)
 }
 
 // Deserialize the response
-var data = JsonConvert.DeserializeObject<ResponseData>(responseData);
+var data = JsonConvert.DeserializeObject<CryptoResponseData>(responseData);
 
 Console.WriteLine($"Deserialized the data: {Stopwatch.GetElapsedTime(startTime)}");
 
@@ -68,7 +69,7 @@ foreach (var symbol in data!.Symbols)
     //Console.WriteLine(responseData2);
 
     // Deserialize the response
-    var data2 = JsonConvert.DeserializeObject<ResponseData2>(responseData2);
+    var data2 = JsonConvert.DeserializeObject<CryptoPriceResponseData>(responseData2);
 
     if (data2 is not null)
     {
@@ -136,34 +137,3 @@ Console.WriteLine($"Save all to Db: {Stopwatch.GetElapsedTime(startTime)}");
 Console.WriteLine($"All done!: {Stopwatch.GetElapsedTime(startTime)}");
 
 Console.ReadLine();
-
-
-public class ResponseData
-{
-    public string[] Symbols { get; set; } = [];
-    public int Timestamp { get; set; }
-}
-
-public class ResponseData2
-{
-    public string Symbol { get; set; } = string.Empty;
-    public double Price { get; set; }
-    public int Timestamp { get; set; }
-
-    public DateTime DateTimeStamp
-        => DateTimeOffset.FromUnixTimeSeconds(Timestamp).DateTime;
-
-    override public string ToString()
-        => $"Symbol: {Symbol}, Price: {Price}, Timestamp: {DateTimeStamp}";
-}
-
-public class CryptoPriceRec
-{
-    public Guid Id { get; set; }
-    public string? Crypto { get; set; } = string.Empty;
-    public double? Price { get; set; }
-    public DateTime? TimeStamp { get; set; }
-
-    override public string ToString()
-        => $"Crypto: {Crypto}, Price: {Price}, Timestamp: {TimeStamp}";
-}
