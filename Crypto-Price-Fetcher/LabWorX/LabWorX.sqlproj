@@ -60,23 +60,11 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
-    <Folder Include="Security\" />
-    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Users.sql" />
     <Build Include="dbo\Tables\Customers.sql" />
     <Build Include="dbo\Tables\Clients.sql" />
-    <Build Include="Security\swithzApp.sql" />
-    <Build Include="Security\swithzApp_1.sql" />
-    <Build Include="dbo\Stored Procedures\spUsers_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\spUsers_Get.sql" />
-    <Build Include="dbo\Stored Procedures\spUsers_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\spUsers_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\spUsers_Update.sql" />
-    <Build Include="Security\matrix.sql" />
-    <Build Include="Security\photo-fetcher.sql" />
-    <Build Include="Security\Permissions.sql" />
     <Build Include="dbo\Tables\CryptoPrices.sql" />
   </ItemGroup>
 </Project>
