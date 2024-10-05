@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 
 namespace CryptoPriceFetcherConsoleApp.Services.Workers;
 
-public class MainWorker : BackgroundService
+public class MainWorker(
+    IConfiguration configuration
+    ) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -31,7 +33,54 @@ public class MainWorker : BackgroundService
 
             Console.WriteLine($"All done!: {Stopwatch.GetElapsedTime(startTime)}");
 
-            await Task.Delay(TimeSpan.FromMinutes(3), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(WorkerInterval), stoppingToken);
+        }
+    }
+
+    private int WorkerInterval
+    {
+        get
+        {
+            int retVal = configuration
+                .GetValue<int>("WorkerInterval");
+
+            return retVal;
+        }
+    }
+
+    private string ApiKey
+    {
+        get
+        {
+            string retVal = configuration
+                .GetValue<string>("CryptoApi:ApiKey")
+                ?? throw new InvalidOperationException("No API key!");
+
+            return retVal;
+        }
+    }
+
+    private string CryptoSymbolUrl
+    {
+        get
+        {
+            string retVal = configuration
+                .GetValue<string>("CryptoApi:CryptoSymbolUrl")
+                ?? throw new InvalidOperationException("No API key!");
+
+            return retVal;
+        }
+    }
+
+    private string CryptoPriceUrl
+    {
+        get
+        {
+            string retVal = configuration
+                .GetValue<string>("CryptoApi:CryptoPriceUrl")
+                ?? throw new InvalidOperationException("No API key!");
+
+            return retVal;
         }
     }
 
@@ -39,7 +88,7 @@ public class MainWorker : BackgroundService
     {
         var retVal = new HttpClient();
         retVal.DefaultRequestHeaders.Add("Accept", "application/json");
-        retVal.DefaultRequestHeaders.Add("X-Api-Key", "xTevBHiVW+f7mhbMYGrFBg==ichUaqSvgzg55803");
+        retVal.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
         retVal.Timeout = TimeSpan.FromSeconds(10);
 
         return retVal;
@@ -50,7 +99,7 @@ public class MainWorker : BackgroundService
         CryptoResponseData? retVal = null;
 
         // Call the API
-        var response = await httpClient.GetAsync("https://api.api-ninjas.com/v1/cryptosymbols");
+        var response = await httpClient.GetAsync(CryptoSymbolUrl);
 
         Console.WriteLine($"Completed API call: {Stopwatch.GetElapsedTime(startTime)}");
 
@@ -93,7 +142,7 @@ public class MainWorker : BackgroundService
             var startTime3 = Stopwatch.GetTimestamp();
 
             // Call the API
-            var response2 = await httpClient.GetAsync($"https://api.api-ninjas.com/v1/cryptoprice?symbol={symbol}");
+            var response2 = await httpClient.GetAsync($"{CryptoPriceUrl}?symbol={symbol}");
 
             Console.WriteLine($"Got the price of {symbol}: {Stopwatch.GetElapsedTime(startTime3)}");
 
@@ -204,7 +253,10 @@ public class MainWorker : BackgroundService
 
     internal async Task SaveCryptoPrices(long startTime, IAsyncEnumerable<CryptoPriceRec> cryptoPrices)
     {
-        using SqlConnection conn = new("Data Source=127.0.0.1;Initial Catalog=LabWorX;User ID=sa;Password=@dm1n123#;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;");
+        string connStr = configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("No connection string!");
+
+        using SqlConnection conn = new(connStr);
         conn.Open();
         Console.WriteLine($"Open connection to Db: {Stopwatch.GetElapsedTime(startTime)}");
 
