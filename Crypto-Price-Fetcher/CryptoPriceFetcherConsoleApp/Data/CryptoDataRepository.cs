@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 namespace CryptoPriceFetcherConsoleApp.Data;
 
 public class CryptoDataRepository(
+    ILogger<CryptoDataRepository> logger,
     IConfiguration configuration
     )
 {
@@ -39,30 +40,29 @@ public class CryptoDataRepository(
         // Call the API
         var response = await httpClient.GetAsync(CryptoSymbolUrl);
 
-        Console.WriteLine($"Completed API call: {Stopwatch.GetElapsedTime(startTime)}");
+        logger.LogInformation("Completed API call: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
         // Read the response
         var responseData = await response.Content.ReadAsStringAsync();
 
-        Console.WriteLine($"Read the response: {Stopwatch.GetElapsedTime(startTime)}");
+        logger.LogInformation("Read the response: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
         // Print the status code if it was not successful
         if (!response.IsSuccessStatusCode)
         {
-            Console.WriteLine($"Error: {response.StatusCode}");
+            logger.LogError("Error: {ErrorCode}", response.StatusCode);
             return retVal;
         }
 
         // Deserialize the response
         retVal = JsonConvert.DeserializeObject<CryptoResponseData>(responseData);
 
-        Console.WriteLine($"Deserialized the data: {Stopwatch.GetElapsedTime(startTime)}");
+        logger.LogInformation("Deserialized the data: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
-        Console.WriteLine($"Status Code: {response.StatusCode}");
-        //Console.WriteLine(responseData);
+        logger.LogInformation("Status Code: {StatusCode}", response.StatusCode);
 
         // Print the symbols
-        Console.WriteLine($"Symbols: {retVal?.Symbols.Length}");
+        logger.LogInformation("Symbols: {SymbolsCount}", retVal?.Symbols.Length);
 
         return retVal;
     }
@@ -83,7 +83,7 @@ public class CryptoDataRepository(
             string url = $"{CryptoPriceUrl}?symbol={symbol}";
             var response2 = await httpClient.GetAsync(url);
 
-            Console.WriteLine($"Got the price of {symbol}: {Stopwatch.GetElapsedTime(startTime3)}");
+            logger.LogInformation("Got the price of {symbol}: {timeStamp}", symbol, Stopwatch.GetElapsedTime(startTime3));
 
             // Read the response
             var responseData2 = await response2.Content.ReadAsStringAsync();
@@ -91,11 +91,9 @@ public class CryptoDataRepository(
             // Print the status code if it was not successful
             if (!response2.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Error ({symbol}): {response2.StatusCode}... {Stopwatch.GetElapsedTime(startTime3)}");
+                logger.LogWarning("Error ({symbol}): {StatusCode}... {timeStamp}", symbol, response2.StatusCode, Stopwatch.GetElapsedTime(startTime3));
                 continue;
             }
-
-            //Console.WriteLine(responseData2);
 
             // Deserialize the response
             var data2 = JsonConvert.DeserializeObject<CryptoPriceResponseData>(responseData2);
@@ -109,10 +107,9 @@ public class CryptoDataRepository(
                     TimeStamp = data2.DateTimeStamp
                 };
 
-                Console.WriteLine($"Added {symbol} to the list: {Stopwatch.GetElapsedTime(startTime3)}");
+                logger.LogInformation("Added {symbol} to the list: {timeStamp}", symbol, Stopwatch.GetElapsedTime(startTime3));
             }
 
-            //Console.WriteLine(data2?.ToString());
             recs++;
 
             if (recs > 10)
@@ -121,12 +118,10 @@ public class CryptoDataRepository(
             }
         }
 
-        Console.WriteLine($"Fetched the prices: {Stopwatch.GetElapsedTime(startTime2)}");
+        logger.LogInformation("Fetched the prices: {timeStamp}", Stopwatch.GetElapsedTime(startTime2));
 
         // Print the symbols
-        Console.WriteLine($"Symbols: {retVal.Count}");
-
-        //return retVal;
+        logger.LogInformation("Symbols: {SymbolsCount}", retVal.Count);
     }
 
 }

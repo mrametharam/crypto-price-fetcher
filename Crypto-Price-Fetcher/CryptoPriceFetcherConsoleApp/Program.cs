@@ -1,5 +1,6 @@
 ﻿using CryptoPriceFetcherConsoleApp.Services.Workers;
 using CryptoPriceFetcherConsoleApp.Data;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,16 @@ builder.Services.AddSingleton<CryptoPricesRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpClient();
 
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.Run();
+
+await Log.CloseAndFlushAsync();

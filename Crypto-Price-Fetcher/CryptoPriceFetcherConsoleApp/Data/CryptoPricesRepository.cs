@@ -4,7 +4,10 @@ using System.Diagnostics;
 
 namespace CryptoPriceFetcherConsoleApp.Data;
 
-public class CryptoPricesRepository(IConfiguration configuration)
+public class CryptoPricesRepository(
+    ILogger<CryptoPricesRepository> logger,
+    IConfiguration configuration
+    )
 {
     private string SqlConnectionString
     {
@@ -17,17 +20,15 @@ public class CryptoPricesRepository(IConfiguration configuration)
         }
     }
 
-
-
     internal async Task SaveCryptoPrices(long startTime, IAsyncEnumerable<CryptoPriceRec> cryptoPrices)
     {
         using SqlConnection conn = new(SqlConnectionString);
         conn.Open();
-        Console.WriteLine($"Open connection to Db: {Stopwatch.GetElapsedTime(startTime)}");
+        logger.LogInformation("Open connection to Db: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
         await foreach (var rec in cryptoPrices)
         {
-            Console.WriteLine($"{rec}");
+            logger.LogInformation($"{rec}");
 
             #region Save to Db
             // Open connection to Db
@@ -50,11 +51,11 @@ INSERT INTO [CryptoPrices]
             cmd.Parameters.AddWithValue("@Price", rec.Price);
             cmd.Parameters.AddWithValue("@TimeStamp", rec.TimeStamp);
 
-            Console.WriteLine($"Inserted {rec.Crypto}: {cmd.ExecuteNonQuery()}");
+            logger.LogInformation("Inserted {Crypto}: {Result}", rec.Crypto, cmd.ExecuteNonQuery());
         }
 
         conn.Close();
-        Console.WriteLine($"Save all to Db: {Stopwatch.GetElapsedTime(startTime)}");
+        logger.LogInformation("Save all to Db: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
         #endregion
     }
 }

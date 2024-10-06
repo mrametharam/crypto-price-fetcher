@@ -49,7 +49,12 @@ Build a console application that will make an API call to get a list of crypto s
 
 ## References
 
-- [ASP.NET Core Web API .NET 8 2024 - 10. Repository Pattern + DI](https://www.youtube.com/watch?v=6vsONJla1Fk)
+- [Github: Serilog](https://github.com/serilog/serilog)
+- [C# Logging with Serilog and Seq - Structured Logging Made Easy](https://www.youtube.com/watch?v=_iryZxv8Rxw)
+- [7 Serilog Best Practices for Better Structured Logging](https://www.youtube.com/watch?v=w7yDuoCLVvQ)
+- [Structured Logging Using Serilog and Seq in .NET](https://www.youtube.com/watch?v=mT8ZkXafuZk)
+- [How Structured Logging With Serilog Can Make Your Life Easier](https://www.youtube.com/watch?v=nVAkSBpsuTk)
+- [ASP.NET Core Web API .NET 8 2024 - 10. Repository Pattern + DI, EF](https://www.youtube.com/watch?v=6vsONJla1Fk)
 - [CRUD Operations using ADO.NET with SQL Server](https://www.youtube.com/watch?v=MCSN7ghS0vI)
 - [Inserting 10 Million Records in SQL Server with C# and ADO.NET (Efficient way)](https://www.youtube.com/watch?v=khdR_8r9YQU)
 - [ADO.NET Tutorial for Beginners](https://www.youtube.com/watch?v=aoFDyt8oG0k&list=PL6n9fhu94yhX5dzHunAI2t4kE0kOuv4D7)

@@ -5,6 +5,7 @@ using System.Diagnostics;
 namespace CryptoPriceFetcherConsoleApp.Services.Workers;
 
 public class MainWorker(
+    ILogger<MainWorker> logger,
     IConfiguration configuration,
     CryptoDataRepository cryptoDataRepository,
     CryptoPricesRepository cryptoPricesRepository
@@ -14,7 +15,7 @@ public class MainWorker(
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            Console.WriteLine("Performing task...");
+            logger.LogInformation("Performing task...");
 
             var startTime = Stopwatch.GetTimestamp();
 
@@ -24,7 +25,7 @@ public class MainWorker(
 
             if (data == null)
             {
-                Console.WriteLine("No data");
+                logger.LogError("No data");
                 return;
             }
 
@@ -32,7 +33,7 @@ public class MainWorker(
 
             await cryptoPricesRepository.SaveCryptoPrices(startTime, cryptoPrices);
 
-            Console.WriteLine($"All done!: {Stopwatch.GetElapsedTime(startTime)}");
+            logger.LogInformation("All done!: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
             await Task.Delay(TimeSpan.FromMinutes(WorkerInterval), stoppingToken);
         }
