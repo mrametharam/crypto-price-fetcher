@@ -12,7 +12,7 @@ Build a console application that will...
 - Save the Crypto Currency, Price, and Date / time it was pulled.
 
 [Done: 10-03-2024]Stage 1: Everything will be hardcoded and will follow a bad monolithic design.  
-Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.
+[Done: 10-06-2024]Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.
 Stage 3: Implement the Clean architecture.  
 Stage 4: Add a front end web page to show the Crypto Currency and their current price.  
 Stage 5: Update the page so that it automatically updates as soon as prices are refreshed.  
