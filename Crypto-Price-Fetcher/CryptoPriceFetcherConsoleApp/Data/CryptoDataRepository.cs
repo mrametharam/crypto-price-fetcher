@@ -12,6 +12,7 @@ public class CryptoDataRepository(
     IHttpClientFactory httpClientFactory
     )
 {
+    #region Private Properties
     private string CryptoSymbolUrl
     {
         get
@@ -56,20 +57,7 @@ public class CryptoDataRepository(
             return retVal;
         }
     }
-
-    private async Task<T?> HandleApiResponse<T>(HttpResponseMessage response)
-    {
-        if (!response.IsSuccessStatusCode)
-        {
-            logger.LogError("Error: {ErrorCode}", response.StatusCode);
-
-            return default;
-        }
-
-        var responseData = await response.Content.ReadAsStringAsync();
-
-        return JsonConvert.DeserializeObject<T>(responseData);
-    }
+    #endregion
 
     internal async Task<CryptoResponseData?> FetchCryptoSumbols(long startTime)
     {
@@ -130,6 +118,7 @@ public class CryptoDataRepository(
         logger.LogInformation("Fetched the prices: {timeStamp}", Stopwatch.GetElapsedTime(startTime2));
     }
 
+    #region Private Functions
     private HttpClient ConfigureHttpClient()
     {
         var retVal = httpClientFactory.CreateClient();
@@ -139,4 +128,19 @@ public class CryptoDataRepository(
 
         return retVal;
     }
+
+    private async Task<T?> HandleApiResponse<T>(HttpResponseMessage response)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            logger.LogError("Error: {ErrorCode}", response.StatusCode);
+
+            return default;
+        }
+
+        var responseData = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<T>(responseData);
+    }
+    #endregion
 }
