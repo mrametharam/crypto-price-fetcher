@@ -11,34 +11,6 @@ public class MainWorker(
     CryptoPricesRepository cryptoPricesRepository
     ) : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            logger.LogInformation("Performing task...");
-
-            var startTime = Stopwatch.GetTimestamp();
-
-            var httpClient = ConfigureHttpClient();
-
-            CryptoResponseData? data = await cryptoDataRepository.FetchCryptoSumbols(httpClient, startTime);
-
-            if (data == null)
-            {
-                logger.LogError("No data");
-                return;
-            }
-
-            var cryptoPrices = cryptoDataRepository.FetchCryptoPrices(httpClient, startTime, data);
-
-            await cryptoPricesRepository.SaveCryptoPrices(startTime, cryptoPrices);
-
-            logger.LogInformation("All done!: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
-
-            await Task.Delay(TimeSpan.FromMinutes(WorkerInterval), stoppingToken);
-        }
-    }
-
     private int WorkerInterval
     {
         get
@@ -50,25 +22,29 @@ public class MainWorker(
         }
     }
 
-    private string ApiKey
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        get
+        while (!stoppingToken.IsCancellationRequested)
         {
-            string retVal = configuration
-                .GetValue<string>("CryptoApi:ApiKey")
-                ?? throw new InvalidOperationException("No API key!");
+            logger.LogInformation("Performing task...");
 
-            return retVal;
+            var startTime = Stopwatch.GetTimestamp();
+
+            CryptoResponseData? data = await cryptoDataRepository.FetchCryptoSumbols(startTime);
+
+            if (data == null)
+            {
+                logger.LogError("No data");
+                return;
+            }
+
+            var cryptoPrices = cryptoDataRepository.FetchCryptoPrices(startTime, data);
+
+            await cryptoPricesRepository.SaveCryptoPrices(startTime, cryptoPrices);
+
+            logger.LogInformation("All done!: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
+
+            await Task.Delay(TimeSpan.FromMinutes(WorkerInterval), stoppingToken);
         }
-    }
-
-    internal HttpClient ConfigureHttpClient()
-    {
-        var retVal = new HttpClient();
-        retVal.DefaultRequestHeaders.Add("Accept", "application/json");
-        retVal.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
-        retVal.Timeout = TimeSpan.FromSeconds(10);
-
-        return retVal;
     }
 }

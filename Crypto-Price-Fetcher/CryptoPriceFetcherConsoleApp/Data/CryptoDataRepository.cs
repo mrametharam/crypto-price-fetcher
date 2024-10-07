@@ -1,4 +1,6 @@
-﻿using CryptoPriceFetcherConsoleApp.Models;
+﻿using CryptoPriceFetcherConsoleApp.Configuration.Options;
+using CryptoPriceFetcherConsoleApp.Models;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
@@ -6,16 +8,16 @@ namespace CryptoPriceFetcherConsoleApp.Data;
 
 public class CryptoDataRepository(
     ILogger<CryptoDataRepository> logger,
-    IConfiguration configuration
+    IOptions<CryptoApiOptions> options,
+    IHttpClientFactory httpClientFactory
     )
 {
     private string CryptoSymbolUrl
     {
         get
         {
-            string retVal = configuration
-                .GetValue<string>("CryptoApi:CryptoSymbolUrl")
-                ?? throw new InvalidOperationException("No API key!");
+            string retVal = options.Value.CryptoSymbolUrl 
+                ?? throw new InvalidOperationException("No CryptoSymbolUrl configured!");
 
             return retVal;
         }
@@ -25,17 +27,29 @@ public class CryptoDataRepository(
     {
         get
         {
-            string retVal = configuration
-                .GetValue<string>("CryptoApi:CryptoPriceUrl")
-                ?? throw new InvalidOperationException("No API key!");
+            string retVal = options.Value.CryptoPriceUrl 
+                ?? throw new InvalidOperationException("No CryptoPriceUrl configured!");
 
             return retVal;
         }
     }
 
-    internal async Task<CryptoResponseData?> FetchCryptoSumbols(HttpClient httpClient, long startTime)
+    private string ApiKey
+    {
+        get
+        {
+            string retVal = options.Value.ApiKey
+                ?? throw new InvalidOperationException("No Crypto API key configured!");
+
+            return retVal;
+        }
+    }
+
+    internal async Task<CryptoResponseData?> FetchCryptoSumbols(long startTime)
     {
         CryptoResponseData? retVal = null;
+
+        var httpClient = ConfigureHttpClient();
 
         // Call the API
         var response = await httpClient.GetAsync(CryptoSymbolUrl);
@@ -67,10 +81,12 @@ public class CryptoDataRepository(
         return retVal;
     }
 
-    internal async IAsyncEnumerable<CryptoPriceRec> FetchCryptoPrices(HttpClient httpClient, long startTime, CryptoResponseData? data)
+    internal async IAsyncEnumerable<CryptoPriceRec> FetchCryptoPrices(long startTime, CryptoResponseData? data)
     {
         List<CryptoPriceRec> retVal = [];
         int recs = 0;
+
+        var httpClient = ConfigureHttpClient();
 
         var startTime2 = Stopwatch.GetTimestamp();
 
@@ -124,4 +140,13 @@ public class CryptoDataRepository(
         logger.LogInformation("Symbols: {SymbolsCount}", retVal.Count);
     }
 
+    private HttpClient ConfigureHttpClient()
+    {
+        var retVal = httpClientFactory.CreateClient();
+        retVal.DefaultRequestHeaders.Add("Accept", "application/json");
+        retVal.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
+        retVal.Timeout = TimeSpan.FromSeconds(10);
+
+        return retVal;
+    }
 }

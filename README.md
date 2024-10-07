@@ -49,6 +49,8 @@ Build a console application that will make an API call to get a list of crypto s
 
 ## References
 
+- [Configuration in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0)
+- [Make HTTP requests using IHttpClientFactory in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-8.0)
 - [Github: Serilog](https://github.com/serilog/serilog)
 - [C# Logging with Serilog and Seq - Structured Logging Made Easy](https://www.youtube.com/watch?v=_iryZxv8Rxw)
 - [7 Serilog Best Practices for Better Structured Logging](https://www.youtube.com/watch?v=w7yDuoCLVvQ)
