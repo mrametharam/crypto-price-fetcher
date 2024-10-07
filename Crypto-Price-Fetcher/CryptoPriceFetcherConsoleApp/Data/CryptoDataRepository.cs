@@ -16,8 +16,12 @@ public class CryptoDataRepository(
     {
         get
         {
-            string retVal = options.Value.CryptoSymbolUrl 
-                ?? throw new InvalidOperationException("No CryptoSymbolUrl configured!");
+            string retVal = options.Value.CryptoSymbolUrl;
+
+            if (string.IsNullOrWhiteSpace(retVal))
+            {
+                throw new InvalidOperationException("No CryptoSymbolUrl configured!");
+            }
 
             return retVal;
         }
@@ -27,8 +31,12 @@ public class CryptoDataRepository(
     {
         get
         {
-            string retVal = options.Value.CryptoPriceUrl 
-                ?? throw new InvalidOperationException("No CryptoPriceUrl configured!");
+            string retVal = options.Value.CryptoPriceUrl;
+
+            if (string.IsNullOrWhiteSpace(retVal))
+            {
+                throw new InvalidOperationException("No CryptoPriceUrl configured!");
+            }
 
             return retVal;
         }
@@ -38,17 +46,33 @@ public class CryptoDataRepository(
     {
         get
         {
-            string retVal = options.Value.ApiKey
-                ?? throw new InvalidOperationException("No Crypto API key configured!");
+            string retVal = options.Value.ApiKey;
+
+            if (string.IsNullOrWhiteSpace(retVal))
+            {
+                throw new InvalidOperationException("No Crypto API key configured!");
+            }
 
             return retVal;
         }
     }
 
+    private async Task<T?> HandleApiResponse<T>(HttpResponseMessage response)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            logger.LogError("Error: {ErrorCode}", response.StatusCode);
+
+            return default;
+        }
+
+        var responseData = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<T>(responseData);
+    }
+
     internal async Task<CryptoResponseData?> FetchCryptoSumbols(long startTime)
     {
-        CryptoResponseData? retVal = null;
-
         var httpClient = ConfigureHttpClient();
 
         // Call the API
@@ -56,39 +80,20 @@ public class CryptoDataRepository(
 
         logger.LogInformation("Completed API call: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
-        // Read the response
-        var responseData = await response.Content.ReadAsStringAsync();
-
-        logger.LogInformation("Read the response: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
-
-        // Print the status code if it was not successful
-        if (!response.IsSuccessStatusCode)
-        {
-            logger.LogError("Error: {ErrorCode}", response.StatusCode);
-            return retVal;
-        }
-
-        // Deserialize the response
-        retVal = JsonConvert.DeserializeObject<CryptoResponseData>(responseData);
-
-        logger.LogInformation("Deserialized the data: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
-
-        logger.LogInformation("Status Code: {StatusCode}", response.StatusCode);
-
-        // Print the symbols
-        logger.LogInformation("Symbols: {SymbolsCount}", retVal?.Symbols.Length);
-
-        return retVal;
+        return await HandleApiResponse<CryptoResponseData>(response);
     }
 
     internal async IAsyncEnumerable<CryptoPriceRec> FetchCryptoPrices(long startTime, CryptoResponseData? data)
     {
-        List<CryptoPriceRec> retVal = [];
-        int recs = 0;
+        if (data == null)
+        {
+            yield break;
+        }
 
         var httpClient = ConfigureHttpClient();
-
         var startTime2 = Stopwatch.GetTimestamp();
+
+        int recCount = 0;
 
         // Get the price of each symbol
         foreach (var symbol in data!.Symbols)
@@ -96,48 +101,33 @@ public class CryptoDataRepository(
             var startTime3 = Stopwatch.GetTimestamp();
 
             // Call the API
-            string url = $"{CryptoPriceUrl}?symbol={symbol}";
-            var response2 = await httpClient.GetAsync(url);
+            var response2 = await httpClient.GetAsync($"{CryptoPriceUrl}?symbol={symbol}");
 
             logger.LogInformation("Got the price of {symbol}: {timeStamp}", symbol, Stopwatch.GetElapsedTime(startTime3));
 
-            // Read the response
-            var responseData2 = await response2.Content.ReadAsStringAsync();
+            var priceData = await HandleApiResponse<CryptoPriceResponseData>(response2);
 
-            // Print the status code if it was not successful
-            if (!response2.IsSuccessStatusCode)
-            {
-                logger.LogWarning("Error ({symbol}): {StatusCode}... {timeStamp}", symbol, response2.StatusCode, Stopwatch.GetElapsedTime(startTime3));
-                continue;
-            }
-
-            // Deserialize the response
-            var data2 = JsonConvert.DeserializeObject<CryptoPriceResponseData>(responseData2);
-
-            if (data2 is not null)
+            if (priceData is not null)
             {
                 yield return new CryptoPriceRec
                 {
-                    Crypto = data2.Symbol,
-                    Price = data2.Price,
-                    TimeStamp = data2.DateTimeStamp
+                    Crypto = priceData.Symbol,
+                    Price = priceData.Price,
+                    TimeStamp = priceData.DateTimeStamp
                 };
 
                 logger.LogInformation("Added {symbol} to the list: {timeStamp}", symbol, Stopwatch.GetElapsedTime(startTime3));
             }
 
-            recs++;
+            recCount++;
 
-            if (recs > 10)
+            if (recCount > 10)
             {
                 break;
             }
         }
 
         logger.LogInformation("Fetched the prices: {timeStamp}", Stopwatch.GetElapsedTime(startTime2));
-
-        // Print the symbols
-        logger.LogInformation("Symbols: {SymbolsCount}", retVal.Count);
     }
 
     private HttpClient ConfigureHttpClient()
