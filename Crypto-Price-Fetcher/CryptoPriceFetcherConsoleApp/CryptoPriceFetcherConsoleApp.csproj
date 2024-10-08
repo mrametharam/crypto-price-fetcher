@@ -18,4 +18,10 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CryptoPriceFetcher.Application\CryptoPriceFetcher.Application.csproj" />
+    <ProjectReference Include="..\CryptoPriceFetcher.Domain\CryptoPriceFetcher.Domain.csproj" />
+    <ProjectReference Include="..\CryptoPriceFetcher.Infrastructure\CryptoPriceFetcher.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
