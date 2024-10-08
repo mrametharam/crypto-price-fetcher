@@ -1,6 +1,6 @@
-﻿namespace CryptoPriceFetcherConsoleApp.Configuration.Options;
+﻿namespace CryptoPriceFetcher.Infrastructure.Configurations;
 
-public class CryptoApiOptions
+public record CryptoApiOptions
 {
     public const string Section = "CryptoApi";
 

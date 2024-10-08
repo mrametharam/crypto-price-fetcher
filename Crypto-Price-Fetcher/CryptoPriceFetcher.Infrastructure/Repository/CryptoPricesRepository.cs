@@ -1,29 +1,27 @@
-﻿using CryptoPriceFetcherConsoleApp.Models;
+﻿using CryptoPriceFetcher.Infrastructure.Configurations;
+using CryptoPriceFetcher.Domain.Interfaces;
+using CryptoPriceFetcher.Domain.Entities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
-namespace CryptoPriceFetcherConsoleApp.Data;
+namespace CryptoPriceFetcher.Infrastructure.Repository;
 
 public class CryptoPricesRepository(
     ILogger<CryptoPricesRepository> logger,
-    IConfiguration configuration
-    )
+    IOptions<DbConnectionStringOptions> dbConnectionOptions
+    ) : ICryptoPricesRepository
 {
     private string SqlConnectionString
-    {
-        get
-        {
-            string retVal = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new InvalidOperationException("No connection string!");
+        => dbConnectionOptions.Value.DefaultConnection
+            ?? throw new InvalidOperationException("No connection string!");
 
-            return retVal;
-        }
-    }
-
-    internal async Task SaveCryptoPrices(long startTime, IAsyncEnumerable<CryptoPriceRec> cryptoPrices)
+    public async Task SaveCryptoPrices(long startTime, IAsyncEnumerable<CryptoPriceRec> cryptoPrices)
     {
         using SqlConnection conn = new(SqlConnectionString);
         conn.Open();
+
         logger.LogInformation("Open connection to Db: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
 
         await foreach (var rec in cryptoPrices)
@@ -31,8 +29,6 @@ public class CryptoPricesRepository(
             logger.LogInformation($"{rec}");
 
             #region Save to Db
-            // Open connection to Db
-
             string sql = @"
 INSERT INTO [CryptoPrices]
     ([Crypto], [Price], [TimeStamp])

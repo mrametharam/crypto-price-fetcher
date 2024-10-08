@@ -1,6 +1,6 @@
-﻿namespace CryptoPriceFetcherConsoleApp.Models;
+﻿namespace CryptoPriceFetcher.Domain.Entities;
 
-public class CryptoPriceRec
+public record CryptoPriceRec
 {
     public Guid Id { get; set; }
     public string? Crypto { get; set; } = string.Empty;
@@ -9,4 +9,5 @@ public class CryptoPriceRec
 
     override public string ToString()
         => $"Crypto: {Crypto}, Price: {Price}, Timestamp: {TimeStamp}";
+
 }

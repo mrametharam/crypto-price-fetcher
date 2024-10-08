@@ -1,32 +1,27 @@
-﻿using CryptoPriceFetcherConsoleApp.Configuration.Options;
-using CryptoPriceFetcherConsoleApp.Services.Workers;
-using CryptoPriceFetcherConsoleApp.Data;
+﻿using CryptoPriceFetcher.Infrastructure;
+using CryptoPriceFetcher.Application;
+using CryptoPriceFetcherConsoleApp;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .Configure<CryptoApiOptions>(
-        builder.Configuration.GetSection(CryptoApiOptions.Section)
-        );
+// Configure Serilog
+builder.Host.UseInfrastructureLogging(builder.Configuration);
 
-builder.Services.AddHostedService<MainWorker>();
-builder.Services.AddSingleton<CryptoDataRepository>();
-builder.Services.AddSingleton<CryptoPricesRepository>();
+// Register services from different layers
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddPresentationServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHttpClient();
-
-builder.Host.UseSerilog((context, configuration) =>
-{
-    configuration.ReadFrom.Configuration(context.Configuration);
-});
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
+// Configure the request pipeline
+app.UseInfrastructureRequestLogging();
 app.UseHttpsRedirection();
 
 app.Run();
 
+
+// Ensure all log entries are flushed and the logging system is cleanly shutdown.
 await Log.CloseAndFlushAsync();

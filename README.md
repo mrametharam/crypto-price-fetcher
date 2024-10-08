@@ -12,8 +12,8 @@ Build a console application that will...
 - Save the Crypto Currency, Price, and Date / time it was pulled.
 
 [Done: 10-03-2024]Stage 1: Everything will be hardcoded and will follow a bad monolithic design.  
-[Done: 10-07-2024]Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.
-Stage 3: Implement the Clean architecture.  
+[Done: 10-07-2024]Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.  
+[Done: 10-08-2024]Stage 3: Implement the Clean architecture.  
 Stage 4: Add a front end web page to show the Crypto Currency and their current price.  
 Stage 5: Update the page so that it automatically updates as soon as prices are refreshed.  
 Stage 6: Add a graph that shows the trend of each Crypto Currency.
@@ -41,9 +41,14 @@ This will be used to get the price of each crypto symbol.
 
 <p/>
 
-## Stage 01
+## Layers of the Clean Architecture
 
-Build a console application that will make an API call to get a list of crypto symbols. It will then get the price of each crypto symbol and save them. Everything will be hardcoded; no configuration file will be used. Code has been refactored and broken into smaller functions.
+1. *Domain Layer* - entities, contracts, DAOs, shared objects, constants and enums, shared / core validation rules, etc.
+2. *Application Layer* - services, DTOs, repository interfaces, service interfaces, specific validation rules, event handlers.
+3. *Infrastructure Layer* - repositories, database access, file system access, email sending, security, caching, external APIs, etc.
+4. *Presentation Layer* - web application, web API, wpf, etc.
+
+
 
 <p/>
 

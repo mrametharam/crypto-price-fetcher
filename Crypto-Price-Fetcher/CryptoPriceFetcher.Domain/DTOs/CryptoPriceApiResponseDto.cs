@@ -1,6 +1,6 @@
-﻿namespace CryptoPriceFetcherConsoleApp.Models;
+﻿namespace CryptoPriceFetcher.Domain.DTOs;
 
-public class CryptoPriceResponseData
+public record CryptoPriceApiResponseDto
 {
     public string Symbol { get; set; } = string.Empty;
     public double Price { get; set; }
@@ -8,7 +8,4 @@ public class CryptoPriceResponseData
 
     public DateTime DateTimeStamp
         => DateTimeOffset.FromUnixTimeSeconds(Timestamp).DateTime;
-
-    override public string ToString()
-        => $"Symbol: {Symbol}, Price: {Price}, Timestamp: {DateTimeStamp}";
 }

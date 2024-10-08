@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\" />
+    <Folder Include="DomainEvents\" />
+    <Folder Include="Factories\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
 </Project>
