@@ -1,4 +1,6 @@
-﻿namespace CryptoPriceFetcherConsoleApp;
+﻿using CryptoPriceFetcherConsoleApp.ApiEndpoints;
+
+namespace CryptoPriceFetcherConsoleApp;
 
 public static class ServiceCollectionExtensions
 {
@@ -7,5 +9,12 @@ public static class ServiceCollectionExtensions
         services.AddEndpointsApiExplorer();
 
         return services;
+    }
+
+    public static IEndpointRouteBuilder MapPresentationEndpoints(this IEndpointRouteBuilder app)
+    {
+        app.RegisterCryptoPricesEndpoints();
+
+        return app;
     }
 }

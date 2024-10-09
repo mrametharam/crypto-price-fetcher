@@ -35,7 +35,7 @@ public class MainWorker(
             {
                 var cryptoPrices = cryptoPriceApiClient.FetchCryptoPrices(startTime, data);
 
-                await cryptoPricesRepository.SaveCryptoPrices(startTime, cryptoPrices);
+                await cryptoPricesRepository.SaveCryptoPrices(cryptoPrices);
 
                 logger.LogInformation("All done!: {timeStamp}", Stopwatch.GetElapsedTime(startTime));
             }

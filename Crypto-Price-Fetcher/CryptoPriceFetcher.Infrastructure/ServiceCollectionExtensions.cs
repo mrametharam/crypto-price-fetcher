@@ -14,13 +14,19 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // Configurations
         services.Configure<DbConnectionStringOptions>(configuration.GetSection(DbConnectionStringOptions.Section));
         services.Configure<CryptoApiOptions>(configuration.GetSection(CryptoApiOptions.Section));
 
+        // Services
         services.AddSingleton<ICryptoPricesRepository, CryptoPricesRepository>();
         services.AddSingleton<ICryptoSymbolApiClient, CryptoSymbolApiClient>();
         services.AddSingleton<ICryptoPriceApiClient, CryptoPriceApiClient>();
 
+        // Fakes!!!
+        services.AddSingleton<FakeRepository>();
+
+        // 3rd Party Stuff
         services.AddHttpClient();
 
         return services;

@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="EventHandlers\" />
+    <Folder Include="EndpointHandlers\" />
     <Folder Include="Validators\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>

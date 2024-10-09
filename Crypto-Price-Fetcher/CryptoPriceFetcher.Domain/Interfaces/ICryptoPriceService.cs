@@ -2,9 +2,8 @@
 
 namespace CryptoPriceFetcher.Domain.Interfaces;
 
-public interface ICryptoPricesRepository
+public interface ICryptoPriceService
 {
-    Task SaveCryptoPrices(IAsyncEnumerable<CryptoPriceRec> cryptoPrices);
     IAsyncEnumerable<CryptoSymbol> GetCryptoSymbols();
     IAsyncEnumerable<CryptoPriceRec> GetCryptoPrice(string cryptoSymbol);
 }

@@ -49,12 +49,12 @@ This will be used to get the price of each crypto symbol.
 3. *Infrastructure Layer* - repositories, database access, file system access, email sending, security, caching, external APIs, etc.
 4. *Presentation Layer* - web application, web API, wpf, etc.
 
-
-
 <p/>
 
 ## References
 
+- [CleanMinimalApi](https://github.com/stphnwlsh/CleanMinimalApi)
+- [Minimal APIs at a glance](https://gist.github.com/davidfowl/ff1addd02d239d2d26f4648a06158727)
 - [How To Organize Minimal API Endpoints Inside Of Clean Architecture](https://www.youtube.com/watch?v=GCuVC_qDOV4)
 - [A better domain events pattern](https://lostechies.com/jimmybogard/2014/05/13/a-better-domain-events-pattern/)
 - [Building ASP.NET Core Apps with Clean Architecture](https://www.ezzylearning.net/tutorial/building-asp-net-core-apps-with-clean-architecture)

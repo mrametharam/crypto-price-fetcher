@@ -20,6 +20,8 @@ var app = builder.Build();
 app.UseInfrastructureRequestLogging();
 app.UseHttpsRedirection();
 
+app.MapPresentationEndpoints();
+
 app.Run();
 
 
