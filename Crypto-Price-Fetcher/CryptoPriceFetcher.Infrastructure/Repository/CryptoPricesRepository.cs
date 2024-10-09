@@ -29,12 +29,7 @@ public class CryptoPricesRepository(
             logger.LogInformation($"{rec}");
 
             #region Save to Db
-            string sql = @"
-INSERT INTO [CryptoPrices]
-    ([Crypto], [Price], [TimeStamp])
---  OUTPUT INSERTED.*
-  VALUES
-    (@Crypto, @Price, @TimeStamp)";
+            string sql = CryptoPricesSql.InsertRecord;
 
             using SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = sql;

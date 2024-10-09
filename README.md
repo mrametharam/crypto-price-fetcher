@@ -14,9 +14,10 @@ Build a console application that will...
 [Done: 10-03-2024]Stage 1: Everything will be hardcoded and will follow a bad monolithic design.  
 [Done: 10-07-2024]Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.  
 [Done: 10-08-2024]Stage 3: Implement the Clean architecture.  
-Stage 4: Add a front end web page to show the Crypto Currency and their current price.  
-Stage 5: Update the page so that it automatically updates as soon as prices are refreshed.  
-Stage 6: Add a graph that shows the trend of each Crypto Currency.
+Stage 4: Build API endpoints that will return the crypto symbols and prices.
+Stage 5: Add a front end web page to show the Crypto Currency and their current price.  
+Stage 6: Update the page so that it automatically updates as soon as prices are refreshed.  
+Stage 7: Add a graph that shows the trend of each Crypto Currency.
 
 <p/>
 
@@ -54,8 +55,8 @@ This will be used to get the price of each crypto symbol.
 
 ## References
 
+- [How To Organize Minimal API Endpoints Inside Of Clean Architecture](https://www.youtube.com/watch?v=GCuVC_qDOV4)
 - [A better domain events pattern](https://lostechies.com/jimmybogard/2014/05/13/a-better-domain-events-pattern/)
-- [Keep It Clean With Clean Architecture](https://juliocasal.com/blog/Clean-Architecture)
 - [Building ASP.NET Core Apps with Clean Architecture](https://www.ezzylearning.net/tutorial/building-asp-net-core-apps-with-clean-architecture)
 - [Clean Architecture .NET Core: A Complete Tutorial from .NET Developer](https://positiwise.com/blog/clean-architecture-net-core)
 - [Configuration in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0)
