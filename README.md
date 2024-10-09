@@ -11,10 +11,10 @@ Build a console application that will...
 - Make another web API call to get the prices of each Crypto Currency.
 - Save the Crypto Currency, Price, and Date / time it was pulled.
 
-[Done: 10-03-2024]Stage 1: Everything will be hardcoded and will follow a bad monolithic design.  
-[Done: 10-07-2024]Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.  
-[Done: 10-08-2024]Stage 3: Implement the Clean architecture.  
-Stage 4: Build API endpoints that will return the crypto symbols and prices.
+[Done: 10-03-2024] Stage 1: Everything will be hardcoded and will follow a bad monolithic design.  
+[Done: 10-07-2024] Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.  
+[Done: 10-08-2024] Stage 3: Implement the Clean architecture.  
+[Done: 10-09-2024] Stage 4: Build API endpoints that will return the crypto symbols and prices.  
 Stage 5: Add a front end web page to show the Crypto Currency and their current price.  
 Stage 6: Update the page so that it automatically updates as soon as prices are refreshed.  
 Stage 7: Add a graph that shows the trend of each Crypto Currency.
