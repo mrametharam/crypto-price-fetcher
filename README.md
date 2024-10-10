@@ -15,9 +15,9 @@ Build a console application that will...
 [Done: 10-07-2024] Stage 2: Create a web API project and add a workservice that will perform the task. Move configurable items into the config file. Implement logging with SeriLog.  
 [Done: 10-08-2024] Stage 3: Implement the Clean architecture.  
 [Done: 10-09-2024] Stage 4: Build API endpoints that will return the crypto symbols and prices.  
-Stage  5: Add a front end web page to show the Crypto Currency and their current price.  
-Stage  6: Update the page so that it automatically updates as soon as prices are refreshed.  
-Stage  7: Add authentication and authorization using google.
+[Done: 10-10-2024] Stage  5: Add a front end web page to show the Crypto Currency and their current price.  
+Stage  6: Add authentication and authorization.
+Stage  7: Update the page so that it automatically updates as soon as prices are refreshed.  
 Stage  8: Make use of Dapper ORM.
 Stage  9: Build a Maui application.
 Stage 10: Add a graph that shows the trend of each Crypto Currency.

@@ -1,0 +1,19 @@
+﻿table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+#loadingMessage {
+    display: none;
+    font-size: 1.2em;
+    color: #555;
+}

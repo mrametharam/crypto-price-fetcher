@@ -1,0 +1,33 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Crypto Price Home Page</title>
+
+    <link rel="stylesheet" href="styles/default.css" />
+    <script src="scripts/index.js" defer></script>
+
+</head>
+<body>
+    <h1>Data Fetch Example</h1>
+    <label for="dataSelect">Choose a crypto:</label>
+    <select id="dataSelect" disabled>
+        <option value="" selected>Select a value</option>
+        <!--<option value="set1">Data Set 1</option>
+        <option value="set2">Data Set 2</option>-->
+    </select>
+    <button id="fetchDataBtn">Fetch Data</button>
+    <div id="loadingMessage">Loading data, please wait...</div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Crypto Symbol</th>
+                <th>Price</th>
+                <th>Date / Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+</body>
+</html>

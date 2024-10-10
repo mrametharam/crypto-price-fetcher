@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IHostBuilder UseInfrastructureLogging(this IHostBuilder hostBuilder, IConfiguration configuration)
+    public static IHostBuilder AddInfrastructureLogging(this IHostBuilder hostBuilder, IConfiguration configuration)
     {
         hostBuilder.UseSerilog((context, configuration) =>
         {

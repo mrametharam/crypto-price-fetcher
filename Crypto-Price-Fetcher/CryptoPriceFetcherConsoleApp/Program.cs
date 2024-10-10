@@ -6,7 +6,10 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
-builder.Host.UseInfrastructureLogging(builder.Configuration);
+builder.Host.AddInfrastructureLogging(builder.Configuration);
+
+// Configure CORS
+builder.Services.ConfigureCors(builder.Configuration);
 
 // Register services from different layers
 builder.Services.AddApplicationServices(builder.Configuration);
@@ -15,6 +18,8 @@ builder.Services.AddPresentationServices();
 
 
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the request pipeline
 app.UseInfrastructureRequestLogging();

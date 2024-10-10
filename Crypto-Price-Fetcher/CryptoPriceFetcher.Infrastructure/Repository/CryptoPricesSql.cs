@@ -25,6 +25,5 @@ Select *
   From CryptoPrices with (nolock)
   Where 1 = 1
     and Crypto = @crypto
-  Order by TimeStamp";
-
+  Order by TimeStamp desc";
 }

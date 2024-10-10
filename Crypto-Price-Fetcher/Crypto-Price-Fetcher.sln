@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoPriceFetcherConsoleAp
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "LabWorX", "LabWorX\LabWorX.sqlproj", "{F686B2DF-D6B5-4087-8BCB-DF4C51D0F936}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceFetcher.Domain", "CryptoPriceFetcher.Domain\CryptoPriceFetcher.Domain.csproj", "{8F8EAB40-8C5C-44D0-9AD3-07EEE1983DC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoPriceFetcher.Domain", "CryptoPriceFetcher.Domain\CryptoPriceFetcher.Domain.csproj", "{8F8EAB40-8C5C-44D0-9AD3-07EEE1983DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceFetcher.Application", "CryptoPriceFetcher.Application\CryptoPriceFetcher.Application.csproj", "{CAC0B2BF-9CB8-4F20-B6D2-EA77B301EA00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoPriceFetcher.Application", "CryptoPriceFetcher.Application\CryptoPriceFetcher.Application.csproj", "{CAC0B2BF-9CB8-4F20-B6D2-EA77B301EA00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceFetcher.Infrastructure", "CryptoPriceFetcher.Infrastructure\CryptoPriceFetcher.Infrastructure.csproj", "{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoPriceFetcher.Infrastructure", "CryptoPriceFetcher.Infrastructure\CryptoPriceFetcher.Infrastructure.csproj", "{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain Layer", "1. Domain Layer", "{24BC16C2-7094-4359-A5EF-8C26E2BA10FB}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Presentation Layer", "4. Presentation Layer", "{58C9AF97-A8BC-4A46-A73A-B238A96CBD4E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9. Others", "9. Others", "{41F2FC23-A04A-4469-8B73-04F1C7A5022C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppBasic", "WebAppBasic\WebAppBasic.csproj", "{BF73C714-0621-43E5-A6AE-3D4F68B5E943}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF73C714-0621-43E5-A6AE-3D4F68B5E943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF73C714-0621-43E5-A6AE-3D4F68B5E943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF73C714-0621-43E5-A6AE-3D4F68B5E943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF73C714-0621-43E5-A6AE-3D4F68B5E943}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{8F8EAB40-8C5C-44D0-9AD3-07EEE1983DC5} = {24BC16C2-7094-4359-A5EF-8C26E2BA10FB}
 		{CAC0B2BF-9CB8-4F20-B6D2-EA77B301EA00} = {C923A225-3BA7-45BF-A1BF-F1AE33FD2D58}
 		{04132A02-3DE7-4C48-B0FA-FD0DD5DBEA8C} = {8C88BFAB-5516-404E-BBCA-FEC478CBB07B}
+		{BF73C714-0621-43E5-A6AE-3D4F68B5E943} = {58C9AF97-A8BC-4A46-A73A-B238A96CBD4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0765294C-B6EA-44D2-9138-2B12A5EE1253}
