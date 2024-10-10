@@ -6,14 +6,14 @@ public static class CryptoPricesEndpoints
 {
     public static void RegisterCryptoPricesEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/crypto-symbols", (ICryptoPriceService cryptoPriceService) =>
+        app.MapGet("/crypto-symbols", async (ICryptoPriceService cryptoPriceService) =>
         {
             var retVal = cryptoPriceService.GetCryptoSymbols();
 
             return Results.Ok(retVal);
         });
 
-        app.MapGet("/crypto-prices/by-symbol/{id?}", (string? id, ICryptoPriceService cryptoPriceService) =>
+        app.MapGet("/crypto-prices/by-symbol/{id?}", async (string? id, ICryptoPriceService cryptoPriceService) =>
         {
             if (id is null)
             {
@@ -22,12 +22,12 @@ public static class CryptoPricesEndpoints
 
             var retVal = cryptoPriceService.GetCryptoPrice(id);
 
-            if (retVal is null)
+            await foreach (var item in retVal)
             {
-                return Results.NotFound($"Crypt {id} not found!");
+                return Results.Ok(retVal);
             }
 
-            return Results.Ok(retVal);
+            return Results.NotFound($"Crypt {id} not found!");
         });
     }
 }

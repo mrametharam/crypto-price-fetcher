@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICryptoPriceService, CryptoPriceService>();
 
         // Hosted Services
-        //services.AddHostedService<MainWorker>();
+        services.AddHostedService<MainWorker>();
 
         return services;
     }

@@ -56,6 +56,8 @@ This will be used to get the price of each crypto symbol.
 
 ## References
 
+- [IAsyncEnumerable with yield in C#](https://code-maze.com/csharp-async-enumerable-yield/)
+- [Streaming Data in ASP.NET Core with IAsyncEnumerable: A Step-by-Step Guide](https://www.devgem.io/posts/streaming-data-in-asp-net-core-with-iasyncenumerable-a-step-by-step-guide)
 - [CleanMinimalApi](https://github.com/stphnwlsh/CleanMinimalApi)
 - [Minimal APIs at a glance](https://gist.github.com/davidfowl/ff1addd02d239d2d26f4648a06158727)
 - [How To Organize Minimal API Endpoints Inside Of Clean Architecture](https://www.youtube.com/watch?v=GCuVC_qDOV4)
